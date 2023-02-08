@@ -34,8 +34,8 @@ router.get('/createAccount', (req, res) => {
   res.render('createUser')
 })
 
-router.get('/questionnaire', (req, res) => {
-  res.render('createUser')
+router.get('/questionnaire', withAuth, (req, res) => {
+  res.render('questionnaire')
 })
 
 module.exports = router;
