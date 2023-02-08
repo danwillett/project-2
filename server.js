@@ -1,22 +1,39 @@
-// to log into herko type, `heroku auth:login` in terminal which will open a browser for you to log in
-// then create an heroku instance: `herko create` which gives you a random url that your site will be hosted at
-// type in `git remote -v` will check that we are both getting heroku and origin links to github and heroku attached to your repo
-// We add and commit any changes like we know how to do
-// then we do `git push heroku main` (i think may have missed this one)
-// in order to open in browser, type in `heroku open` 
-
-const express = require('express');
 const path = require('path');
+const express = require('express');
+const session = require('express-session');
+const exphbs = require('express-handlebars');
+const routes = require('./controllers');
+const helpers = require('./utils/helpers');
 
-const PORT = process.env.PORT || 3001; //when we deploy a port in heroku, it will deploy to an available heroku port firs, then it will run it on our local server
+const sequelize = require('./config/connection');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-app.use(express.static('public'));
+const hbs = exphbs.create({ helpers });
 
-// GET Route for homepage
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);
+const sess = {
+  secret: 'Super secret secret',
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
 
-app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
+app.use(session(sess));
+
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(routes);
+
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log('Now listening'));
+});

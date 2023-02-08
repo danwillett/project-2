@@ -19,6 +19,15 @@ const loginFormHandler = async (event) => {
   }
 };
 
+// const createAccountHandler = () => {
+//   document.location.replace('/createAccount');
+// }
+
 document
   .querySelector('.login-form')
-  .addEventListener('submit', loginFormHandler);
+  .addEventListener('submit', loginFormHandler)
+
+// document
+//   .querySelector('.create-account')
+//   .addEventListener('submit', createAccountHandler)
+
