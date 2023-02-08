@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../../models');
+const bcrypt = require('bcrypt')
 
 router.post('/login', async (req, res) => {
   try {
@@ -40,6 +41,30 @@ router.post('/logout', (req, res) => {
     });
   } else {
     res.status(404).end();
+  }
+});
+
+router.post('/create-account', async (req, res) => {
+  console.log(req.body)
+  try {    
+    const newUser = {
+      username: req.body.username,
+    };
+
+    newUser.password = await bcrypt.hash(req.body.password, 10);
+    console.log(newUser)
+    // create the newUser with the hashed password and save to DB
+    const userData = await User.create(newUser);
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+      
+      res.json({ user: userData, message: 'Created new account. You are now logged in!' });
+    });
+
+  } catch (err) {
+    res.status(400).json(err);
   }
 });
 
