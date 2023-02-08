@@ -30,9 +30,12 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-// router.get('/createAccount', (req, res) => {
-//   res.json()
-//   // res.render('createUser')
-// })
+router.get('/createAccount', (req, res) => {
+  res.render('createUser')
+})
+
+router.get('/questionnaire', (req, res) => {
+  res.render('createUser')
+})
 
 module.exports = router;

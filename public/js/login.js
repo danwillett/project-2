@@ -20,14 +20,20 @@ const loginFormHandler = async (event) => {
 };
 
 // const createAccountHandler = () => {
+//   console.log("hi")
 //   document.location.replace('/createAccount');
 // }
+
+
+const createBtn = document.getElementById('create-account')
+console.log(createBtn)
+createBtn.addEventListener('click', function(){
+  console.log("hi")
+  document.location.replace('/createAccount');
+})
+
 
 document
   .querySelector('.login-form')
   .addEventListener('submit', loginFormHandler)
-
-// document
-//   .querySelector('.create-account')
-//   .addEventListener('submit', createAccountHandler)
 
