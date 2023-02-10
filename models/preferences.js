@@ -20,9 +20,6 @@ Preferences.init(
             type: DataType.INTEGER
       
           },
-        
-      
-         
           is_vegetarian: {
             type: DataType.boolean
           },

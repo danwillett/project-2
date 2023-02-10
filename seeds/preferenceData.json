@@ -1,0 +1,54 @@
+[
+    {
+        "location": "San francisco",
+       "is_vegetarian": true,
+       "price": "15.99",
+       "user_id": 1
+
+    },
+    {
+        "location": "Berkeley",
+       "is_vegetarian": false,
+       "price": "20.00",
+       "user_id": 2
+
+    },
+    {
+        "location": "San Pablo",
+       "is_vegetarian": false,
+       "price": "18.80",
+       "user_id": 3
+
+    },
+    {
+        "location": "Oakland",
+       "is_vegetarian": false,
+       "price": "23.50",
+       "user_id": 4
+
+    },
+    {
+        "location": "El cerrito",
+       "is_vegetarian": true,
+       "price": "12.99",
+       "user_id": 5
+
+    },
+    {
+        "location": "Daily City",
+       "is_vegetarian": true,
+       "price": "8.99",
+       "user_id": 6
+
+    },
+    {
+        "location": "Alameda",
+       "is_vegetarian": true,
+       "price": "14.99",
+       "user_id": 7
+
+    }
+
+
+
+]
