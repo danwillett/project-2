@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, INTEGER } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
@@ -10,12 +10,14 @@ class User extends Model {
 
 User.init(
   {
-    id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
+    
+
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -44,3 +46,19 @@ User.init(
 );
 
 module.exports = User;
+
+
+
+
+// In this section, we are defining what types of data we're going to be storing.
+
+// Things we could store as tables:
+// - Users info (see User.js)
+//     - id
+//     - username
+//     - password
+// - User's preferences
+//     - dietary restrictions - string array
+//     - price min-max - 
+//     - favorite restaurants?
+//     - user_id foreign key
