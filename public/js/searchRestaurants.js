@@ -1,6 +1,7 @@
 // Get food categories list
 const searchBtnEl = document.getElementById("search");
 const categoryListEl = document.getElementById("show-list");
+const filtersEl = document.getElementById("filters");
 
 const searchRestaurants = async () => {
   const categoriesObj = await fetch("/api/yelp/categories");
@@ -42,11 +43,26 @@ const searchRestaurants = async () => {
             categoryListEl.appendChild(catItem);
           }
         });
-        // categoryListEl.innerHTML= matchList;
       } else {
         categoryListEl.innerHTML= '';
       }
     }
+    // create filters group element
+    categoryListEl.addEventListener("click", (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        let category = event.target.id
+        let currentFilters = [...filtersEl.children];
+        let filterIds = currentFilters.map((obj) => obj.id)
+        
+        if (!filterIds.includes(category)) {
+            let newFilter = document.createElement('li');
+            newFilter.setAttribute("id", category)
+            newFilter.setAttribute("class", "list-group-item")
+            newFilter.textContent = category;
+            filtersEl.appendChild(newFilter)
+        }
+    },)
   });
 };
 
