@@ -43,35 +43,33 @@ router.get('/restaurantSearch', async (req, res) => {
     }
   });
 
+router.get('/categories', async (req, res) => {
 
-// format:
-// headers: {
-//   "Authorization HTTP": "Bearer 7Yd3yqVd25Ugww-nfqbIZ9OkKNAThCd7M52-fcS58bYAb2lze68QiGuP6EoFrQSEOTCJybZe3yRE18SyAEI9NTqgSBd1hCMEYDbZ8trFvM5KgQ0jOIKbJG9pPA_jY3Yx"
-// }
+  try {
+    const data = await fetch('https://api.yelp.com/v3/categories?locale=en_US', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+        }
+    })
 
+    const js = await data.json();
+    categories = js.categories;
+    foodCatsObj = categories.filter((cat) => {
+        
+        if (cat.alias == "food" || cat.alias == "restaurants" || cat.parent_aliases.includes("restaurants")) {
+            return cat
+        }
+    })
+    foodCatsArray =  foodCatsObj.map((obj) => obj.title);
+    console.log(foodCatsArray)
+    res.status(200).json(foodCatsArray)
 
-// router.get('/yelpCategories', async (req, res) => {
+} catch (err) {
+    res.status(500).json(err)
+    console.log(err)
+}
 
-//   try {
-
-
-//     // const sdk = require('api')('@yelp-developers/v1.0#22jt41lckiwavc');
-
-//     // const usCategories = await sdk.v3_all_categories({locale: 'en_US'})
-//     // res.status(200).send(usCategories)
-
-
-//     // let params = [{
-//     //   locale: "en_US"
-//     // }]
-
-//     const usCategories = await yelp.query('categories', params)
-//     // res.status(200).send(usCategories)
-//   } catch (err) {
-//     console.log(err)
-//     res.status(500).json(err)
-    
-//   }
-
-// })  
+})  
   module.exports = router;

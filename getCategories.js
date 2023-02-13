@@ -12,7 +12,6 @@ const getCategories = async () => {
             }
         })
 
-
         const js = await data.json();
         categories = js.categories;
         foodCatsObj = categories.filter((cat) => {
@@ -21,7 +20,6 @@ const getCategories = async () => {
                 return cat
             }
         })
-        // console.log(foodCats)
         foodCatsArray =  foodCatsObj.map((obj) => obj.title);
         console.log(foodCatsArray)
     } catch (err) {
@@ -31,4 +29,4 @@ const getCategories = async () => {
     
 }
 
-getsomething()
+getCategories()
