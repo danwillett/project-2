@@ -12,7 +12,12 @@ router.get('/', withAuth, async (req, res) => {
     // console.log(userData)
     const userObj = userData.get({ plain: true })
     const preferences = userObj.Preference;
-    preferences.location = preferences.city + ", " + preferences.state;
+    
+    preferences.locationDisplay = preferences.city + ", " + preferences.state;
+
+    req.session.save(() => {
+      req.session.preferences = preferences;
+    });
     console.log(preferences)
     res.render('homepage', {
       preferences,     
