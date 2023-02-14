@@ -41,4 +41,4 @@ underscored: true,
 modelName: 'Preferences',
 }
 );
-module.exports = Preferences ;
+module.exports = Preferences;
