@@ -13,15 +13,15 @@ Preferences.init(
             autoIncrement: true,
           },
           location: {
-            type: DataType.STRING
+            type: DataTypes.STRING
           },
          
           price: {
-            type: DataType.INTEGER
+            type: DataTypes.INTEGER
       
           },
           is_vegetarian: {
-            type: DataType.boolean
+            type: DataTypes.BOOLEAN
           },
           user_id: {
             type: DataTypes.INTEGER,
