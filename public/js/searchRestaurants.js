@@ -77,6 +77,8 @@ const addFilters = async () => {
             newFilter.textContent = category;
             filtersEl.appendChild(newFilter)
         }
+        categoryListEl.innerHTML= '';
+        searchFieldEl.value = '';
     })
     
   });
