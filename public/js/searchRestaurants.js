@@ -2,11 +2,12 @@
 const searchBtnEl = document.getElementById("searchBtn");
 const searchFieldEl = document.getElementById("cuisine");
 const categoryListEl = document.getElementById("show-list");
-const filtersEl = document.getElementById("filters");
+const cuisineEl = document.getElementById("filters");
+const locationEl = document.getElementById("location")
 
 const getFilters = (event) => {
-    let currentFilters = [...filtersEl.children];
-    let filterIds = currentFilters.map((obj) => obj.id)
+    let currentCuisines = [...cuisineEl.children];
+    let filterIds = currentCuisines.map((obj) => obj.id)
     return filterIds
 }
 
@@ -75,7 +76,7 @@ const addFilters = async () => {
             newFilter.setAttribute("class", "list-group-item")
             newFilter.setAttribute("data", alias)
             newFilter.textContent = category;
-            filtersEl.appendChild(newFilter)
+            cuisineEl.appendChild(newFilter)
         }
         categoryListEl.innerHTML= '';
         searchFieldEl.value = '';
@@ -91,17 +92,20 @@ searchBtnEl.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    let currentFilters = filtersEl.children;
+    // cuisine filters
+    let currentCuisines = cuisineEl.children;
     let aliases;
-    for (let i = 0; i<currentFilters.length; i++) {
-        console.log(currentFilters[i])
+    for (let i = 0; i<currentCuisines.length; i++) {
+        console.log(currentCuisines[i])
         if (i == 0) {
-            aliases = currentFilters[i].getAttribute("data");
+            aliases = currentCuisines[i].getAttribute("data");
         } else {
-            aliases = aliases.concat("_", currentFilters[i].getAttribute("data"))
+            aliases = aliases.concat("_", currentCuisines[i].getAttribute("data"))
         }
          
     }
+
+    let location = 
      
     console.log(aliases)
     

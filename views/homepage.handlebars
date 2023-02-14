@@ -1,4 +1,6 @@
 {{!-- https://www.youtube.com/watch?v=23QAc7PjpiI --}}
+{{!-- https://docs.mapbox.com/api/search/geocoding/#forward-geocoding this can be used to grab city or state I think
+--}}
 
 <body class="bg-info">
   <div class="container">
@@ -9,60 +11,92 @@
         <ul class="list-group list-group-horizontal" id="filters"></ul>
       </div>
 
-      <div class="col-md-8 offset-md-2 bg-light p-4 mt-3">
-        <h4 class="text-center">What are you in the mood for?</h4>
+      <div class="container">
 
-        <section>
-          <form class="form-inline p-3">
-          <input type="text" name="cuisine" id="cuisine" class="form-control form-control-lg rounded-0"
-            placeholder="cuisine" style="width:80%;">
-        </form>
-        <form class="form-inline p-3">
-          <input type="text" name="location" id="location" class="form-control form-control-lg rounded-0"
-            style="width:80%;" value="{{{preferences.location}}}">
-        </form>
-        </section>
-        
-        <button type="button" class="btn btn-primary" id="searchBtn">Get Restaurant</button>
-      </div>
+        {{!-- https://www.solodev.com/blog/web-design/adding-a-filter-to-your-search-input-using-bootstrap.stml --}}
+        <div class="row searchFilter">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <input type="text" id="cuisine" class="form-control"
+                aria-label="Text input with segmented button dropdown">
 
-      <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
-        {{!-- show autocomplete options --}}
-        <div class="list-group" id="show-list"></div>
-      </div>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  {{{preferences.location}}}
+                </button>
+                <div class="dropdown-menu">
+                  <form class="px-4 py-3">
+                    <div class="mb-3">
+                      <label for="exampleDropdownFormEmail1" class="form-label">City</label>
+                      <input type="email" class="form-control" id="exampleDropdownFormEmail1"
+                        placeholder="Los Angeles">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleDropdownFormPassword1" class="form-label">State</label>
+                      <input type="password" class="form-control" id="exampleDropdownFormPassword1"
+                        placeholder="CA">
+                    </div>
+                    <div class="mb-3">
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                        <label class="form-check-label" for="dropdownCheck">
+                          Update Profile
+                        </label>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>                    
+                  </form>
+                  {{!-- <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">New around here? Sign up</a>
+                  <a class="dropdown-item" href="#">Forgot password?</a> --}}
+                </div>
+              </div>
+              <button id="searchBtn" type="button" class="btn btn-primary btn-search"><span
+                  class="glyphicon glyphicon-search">&nbsp;</span> <span class="label-icon">Find
+                  Restaurant</span></button>
+            </div>
 
-      <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
-        {{!-- show autocomplete options --}}
-        <div class="list-group" id="show-list"></div>
-      </div>
 
-      <section class="display-restaurant">
-        {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
-        {{#if id}}
-        <div class="card col-10">
-          <img class="card-img-top" src={{image_url}} alt="Restaurant image cap">
-          <div class="card-body">
-            <h5 class="card-title">{{name}}</h5>
-            {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p> --}}
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{address}}</li>
-            <li class="list-group-item">{{display_phone}}</li>
-            {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
-          </ul>
-          <div class="card-body">
-            <a href="{{url}}" target="_blank" class="card-link">See restaurant page</a>
-            {{!-- <a href="#" class="card-link">Another link</a> --}}
           </div>
         </div>
-        {{/if}}
+      </div>
 
-      </section>
-
-
+      <div class="col-md-5">
+        {{!-- show autocomplete options --}}
+        <div class="list-group" id="show-list"></div>
+      </div>
 
     </div>
+
+    <section class="display-restaurant">
+      {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
+      {{#if id}}
+      <div class="card col-10">
+        <img class="card-img-top" src={{image_url}} alt="Restaurant image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{name}}</h5>
+          {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+            card's
+            content.</p> --}}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">{{address}}</li>
+          <li class="list-group-item">{{display_phone}}</li>
+          {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
+        </ul>
+        <div class="card-body">
+          <a href="{{url}}" target="_blank" class="card-link">See restaurant page</a>
+          {{!-- <a href="#" class="card-link">Another link</a> --}}
+        </div>
+      </div>
+      {{/if}}
+
+    </section>
+
+
+
+  </div>
   </div>
 
   <script type="module" src="/js/searchRestaurants.js"></script>
