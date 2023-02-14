@@ -1,7 +1,7 @@
 const User = require('./User');
 // add the other model
 
-const Preferences = require('./Preferences');
+const Preferences = require('./preferences');
 
 // Define a Driver as having one License to create a foreign key in the `license` table
 User.hasOne(Preferences, {
