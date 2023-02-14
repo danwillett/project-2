@@ -109,6 +109,14 @@ searchBtnEl.addEventListener('click', async (event) => {
 
     const yelpData = await fetch(`/api/yelp/search?categories=${aliases}&city=Goleta&state=CA`)
     const yelpObj = await yelpData.json()
+
+    // get random restaurant
+    let randomBusId = Math.floor(yelpObj.businesses.length-1 * Math.random)
+
+    // chosen restaurant 
+    let chosenRestaurant = yelpObj.businesses[randomBusId];
+    
+
     console.log(yelpObj)
 })
 
