@@ -1,6 +1,6 @@
 // Get food categories list
 const searchBtnEl = document.getElementById("searchBtn");
-const searchFieldEl = document.getElementById("search");
+const searchFieldEl = document.getElementById("cuisine");
 const categoryListEl = document.getElementById("show-list");
 const filtersEl = document.getElementById("filters");
 
@@ -108,16 +108,6 @@ searchBtnEl.addEventListener('click', async (event) => {
     // need a city and state query parameter
 
     window.location.replace(`/api/yelp/search?categories=${aliases}&city=Goleta&state=CA`)
-     // const yelpObj = await yelpData.json()
-    
-    // // get random restaurant
-    // let randomBusId = Math.floor(yelpObj.businesses.length-1 * Math.random)
-
-    // // chosen restaurant 
-    // let chosenRestaurant = yelpObj.businesses[randomBusId];
-
-
-    // console.log(yelpObj)
 })
 
 

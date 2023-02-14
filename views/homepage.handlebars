@@ -11,17 +11,26 @@
 
       <div class="col-md-8 offset-md-2 bg-light p-4 mt-3">
         <h4 class="text-center">What are you in the mood for?</h4>
-        <form action="details.php" method="post" class="form-inline p-3">
-          <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0"
+
+        <section>
+          <form class="form-inline p-3">
+          <input type="text" name="cuisine" id="cuisine" class="form-control form-control-lg rounded-0"
             placeholder="cuisine" style="width:80%;">
         </form>
+        <form class="form-inline p-3">
+          <input type="text" name="location" id="location" class="form-control form-control-lg rounded-0"
+            style="width:80%;" value="{{{preferences.location}}}">
+        </form>
+        </section>
+        
         <button type="button" class="btn btn-primary" id="searchBtn">Get Restaurant</button>
-
       </div>
+
       <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
         {{!-- show autocomplete options --}}
         <div class="list-group" id="show-list"></div>
       </div>
+
       <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
         {{!-- show autocomplete options --}}
         <div class="list-group" id="show-list"></div>

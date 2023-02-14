@@ -1,22 +1,25 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Preferences } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
-    // const userData = await User.findAll({
-    //   attributes: { exclude: ['password'] },
-    //   order: [['name', 'ASC']],
-    // });
+    const userId = req.session.user_id
+    const userData = await User.findByPk(userId, {
+      include: [{model: Preferences}],
+      attributes: { exclude: ['password'] },
+    });
     // console.log(userData)
-
-    // const users = userData.map((project) => project.get({ plain: true }));
-
+    const userObj = userData.get({ plain: true })
+    const preferences = userObj.Preference;
+    preferences.location = preferences.city + ", " + preferences.state;
+    console.log(preferences)
     res.render('homepage', {
-      // users,
+      preferences,     
       logged_in: req.session.logged_in,
     });
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 });
@@ -26,7 +29,6 @@ router.get('/login', (req, res) => {
     res.redirect('/');
     return;
   }
-
   res.render('login');
 });
 
