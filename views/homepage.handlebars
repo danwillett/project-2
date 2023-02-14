@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
 
-      <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">        
+      <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
         {{!-- show category label options --}}
         <ul class="list-group list-group-horizontal" id="filters"></ul>
       </div>
@@ -26,6 +26,31 @@
         {{!-- show autocomplete options --}}
         <div class="list-group" id="show-list"></div>
       </div>
+
+      <section class="display-restaurant">
+        {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
+        {{#if id}}
+        <div class="card col-10">
+          <img class="card-img-top" src={{image_url}} alt="Restaurant image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p> --}}
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{address}}</li>
+            <li class="list-group-item">{{display_phone}}</li>
+            {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
+          </ul>
+          <div class="card-body">
+            <a href="{{url}}" target="_blank" class="card-link">See restaurant page</a>
+            {{!-- <a href="#" class="card-link">Another link</a> --}}
+          </div>
+        </div>
+        {{/if}}
+
+      </section>
+
 
 
     </div>

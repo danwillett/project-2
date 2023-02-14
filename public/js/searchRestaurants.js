@@ -107,17 +107,17 @@ searchBtnEl.addEventListener('click', async (event) => {
     
     // need a city and state query parameter
 
-    const yelpData = await fetch(`/api/yelp/search?categories=${aliases}&city=Goleta&state=CA`)
-    const yelpObj = await yelpData.json()
-
-    // get random restaurant
-    let randomBusId = Math.floor(yelpObj.businesses.length-1 * Math.random)
-
-    // chosen restaurant 
-    let chosenRestaurant = yelpObj.businesses[randomBusId];
+    window.location.replace(`/api/yelp/search?categories=${aliases}&city=Goleta&state=CA`)
+     // const yelpObj = await yelpData.json()
     
+    // // get random restaurant
+    // let randomBusId = Math.floor(yelpObj.businesses.length-1 * Math.random)
 
-    console.log(yelpObj)
+    // // chosen restaurant 
+    // let chosenRestaurant = yelpObj.businesses[randomBusId];
+
+
+    // console.log(yelpObj)
 })
 
 
