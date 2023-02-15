@@ -44,7 +44,6 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/create-account', async (req, res) => {
-  console.log(req.body)
   
   try {    
     const newUser = {
@@ -60,8 +59,6 @@ router.post('/create-account', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      
-      console.log("ok?")
       res.json({ user: userData, message: 'Created new account. You are now logged in!' });
     });
 
@@ -72,19 +69,24 @@ router.post('/create-account', async (req, res) => {
 });
 
 router.post('/add-preferences', async (req, res) => {
-console.log(req.session)
-console.log(req.body)
 
-const userPreferences = Preferences.create({
-  city: req.body.city,
-  state: req.body.state,
-  price: 10,
-  favoriteCuisine: "default",
-  is_vegetarian: true,
-  user_id: req.session.user_id
-})
+try {
+  
+  const userPreferences = Preferences.create({
+    city: req.body.city,
+    state: req.body.state,
+    price: 10,
+    favoriteCuisine: "default",
+    is_vegetarian: true,
+    user_id: req.session.user_id
+  })
 
+  res.status(200).json({ userPreferences: userPreferences, message: 'Preferences saved!' });
 
+} catch (err) {
+  console.log(err)
+  res.status(500).json(err)
+}
 
 })
 
