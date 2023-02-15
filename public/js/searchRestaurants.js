@@ -1,12 +1,15 @@
 // Get food categories list
 const searchBtnEl = document.getElementById("searchBtn");
-const searchFieldEl = document.getElementById("search");
+const searchFieldEl = document.getElementById("cuisine");
 const categoryListEl = document.getElementById("show-list");
-const filtersEl = document.getElementById("filters");
+const cuisineEl = document.getElementById("filters");
+const locationBtn = document.getElementById("location-dropdown")
+const locationSubmitBtn = document.getElementById("location-submit")
+console.log(locationBtn)
 
 const getFilters = (event) => {
-    let currentFilters = [...filtersEl.children];
-    let filterIds = currentFilters.map((obj) => obj.id)
+    let currentCuisines = [...cuisineEl.children];
+    let filterIds = currentCuisines.map((obj) => obj.id)
     return filterIds
 }
 
@@ -75,8 +78,10 @@ const addFilters = async () => {
             newFilter.setAttribute("class", "list-group-item")
             newFilter.setAttribute("data", alias)
             newFilter.textContent = category;
-            filtersEl.appendChild(newFilter)
+            cuisineEl.appendChild(newFilter)
         }
+        categoryListEl.innerHTML= '';
+        searchFieldEl.value = '';
     })
     
   });
@@ -84,30 +89,51 @@ const addFilters = async () => {
 
 addFilters();
 
+locationSubmitBtn.addEventListener('click', (event) => {
+
+  event.preventDefault()
+  event.stopPropagation()
+
+  let city = document.getElementById('dropdown-city').value;
+  console.log(city)
+  let state = document.getElementById('dropdown-state').value;
+
+  locationBtn.removeAttribute("data-city")
+  locationBtn.removeAttribute("data-state")
+  locationBtn.setAttribute("data-city", city)
+  locationBtn.setAttribute("data-state", state)
+
+  locationBtn.textContent = city + ', ' + state;
+
+  // need to find a way to preserve change on refresh... 
+
+})
+
 // find restaurants matching filters categories
 searchBtnEl.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    let currentFilters = filtersEl.children;
+    // cuisine filters
+    let currentCuisines = cuisineEl.children;
     let aliases;
-    for (let i = 0; i<currentFilters.length; i++) {
-        console.log(currentFilters[i])
+    for (let i = 0; i<currentCuisines.length; i++) {
+        console.log(currentCuisines[i])
         if (i == 0) {
-            aliases = currentFilters[i].getAttribute("data");
+            aliases = currentCuisines[i].getAttribute("data");
         } else {
-            aliases = aliases.concat("_", currentFilters[i].getAttribute("data"))
+            aliases = aliases.concat("_", currentCuisines[i].getAttribute("data"))
         }
          
-    }
-     
-    console.log(aliases)
+    }   
     
-    // need a city and state query parameter
+    // location filter
+    let city = locationBtn.getAttribute("data-city")
+    let state = locationBtn.getAttribute("data-state")
 
-    const yelpData = await fetch(`/api/yelp/search?categories=${aliases}&city=Goleta&state=CA`)
-    const yelpObj = await yelpData.json()
-    console.log(yelpObj)
+    // need a city and state query parameter
+    window.location.replace(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
+
 })
 
 

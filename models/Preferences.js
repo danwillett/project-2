@@ -1,10 +1,10 @@
-const { Model, DataTypes, INTEGER } = require('sequelize');
-const bcrypt = require('bcrypt');
-const sequelize = require('../config/connection');
+const { Model, DataTypes} = require("sequelize");
+const sequelize = require("../config/connection");
 
 class Preferences extends Model {}
- 
+
 Preferences.init(
+
     {
       id: {
             type: DataTypes.INTEGER,
@@ -38,12 +38,13 @@ Preferences.init(
             
           
     },
-{ 
-sequelize,
-timestamps: false,
-freezeTableName: true,
-underscored: true,
-modelName: 'Preferences',
-}
+  },
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: "Preferences",
+  }
 );
 module.exports = Preferences;
