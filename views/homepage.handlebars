@@ -22,20 +22,19 @@
 
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="location-dropdown"
-                  data-bs-toggle="dropdown" data-city="{{{preferences.city}}}" data-state="{{{preferences.state}}}" aria-expanded="false">
+                  data-bs-toggle="dropdown" data-city="{{{preferences.city}}}" data-state="{{{preferences.state}}}"
+                  aria-expanded="false">
                   {{{preferences.locationDisplay}}}
                 </button>
                 <div class="dropdown-menu">
                   <form class="px-4 py-3">
                     <div class="mb-3">
                       <label for="dropdown-city" class="form-label">City</label>
-                      <input type="text" class="form-control" id="dropdown-city"
-                        placeholder="Los Angeles">
+                      <input type="text" class="form-control" id="dropdown-city" placeholder="Los Angeles">
                     </div>
                     <div class="mb-3">
                       <label for="dropdown-state" class="form-label">State</label>
-                      <input type="text" class="form-control" id="dropdown-state"
-                        placeholder="CA">
+                      <input type="text" class="form-control" id="dropdown-state" placeholder="CA">
                     </div>
                     <div class="mb-3">
                       <div class="form-check">
@@ -45,7 +44,7 @@
                         </label>
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary" id="location-submit">Submit</button>                    
+                    <button type="button" class="btn btn-primary" id="location-submit">Submit</button>
                   </form>
                   {{!-- <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">New around here? Sign up</a>
@@ -72,25 +71,33 @@
     <section class="display-restaurant">
       {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
       {{#if chosenRestaurant.id}}
-      <div class="card col-10">
-        <img class="card-img-top" src={{chosenRestaurant.image_url}} alt="Restaurant image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{chosenRestaurant.name}}</h5>
-          {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-            card's
-            content.</p> --}}
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">{{chosenRestaurant.address}}</li>
-          <li class="list-group-item">{{chosenRestaurant.display_phone}}</li>
-          {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
-        </ul>
-        <div class="card-body">
-          <a href="{{chosenRestaurant.url}}" target="_blank" class="card-link">See restaurant page</a>
-          {{!-- <a href="#" class="card-link">Another link</a> --}}
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-6 col-lg-6">
+            <img class="img-fluid rounded-start" src={{chosenRestaurant.image_url}} alt="Restaurant image cap">
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="card-body">
+              <h5 class="card-title">{{chosenRestaurant.name}}</h5>
+              {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                card's
+                content.</p> --}}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{chosenRestaurant.address}}</li>
+              <li class="list-group-item">{{chosenRestaurant.display_phone}}</li>
+              {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
+            </ul>
+            <div class="card-body">
+              <a href="{{chosenRestaurant.url}}" target="_blank" class="card-link">See restaurant page</a>
+              <a href="#" class="card-link" type="button" id="like-restaurant">Add to liked</a>
+              <a href="#" class="card-link" type="button" id="dislike-restaurant">Don't recommend again</a>
+            </div>
+          </div>
+
         </div>
       </div>
-      {{/if}}
+        {{/if}}
 
     </section>
 
