@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User} = require('../../models');
 const bcrypt = require('bcrypt')
 
 router.post('/login', async (req, res) => {
@@ -70,5 +70,34 @@ router.post('/create-account', async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+// router.post('/dislike-restaurant', async (req, res) => {
+//   // user dislikes restaurant
+//   /* req.body should look like this...
+//     {
+//       restaurant_id: "dalskdasd",
+//       userIds: [1, 2, 3, 4]
+//     }
+//   */
+
+// try {
+//   const dislikedData = await Disliked.create()
+
+//     const userDislikedIdArr = req.body.userIds.map((user_id) => {
+//       return {
+//         disliked_id: dislikedData.id,
+//         user_id,
+//       }
+//     })
+  
+//   const userDislikedData = await UserDisliked.bulkCreate(userDislikedIdArr)
+//       res.status(200).json({ dislikedData, userDislikedData })
+
+// } catch (err) {
+//   console.log(err)
+//   res.json(err)
+// }
+
+// });
 
 module.exports = router;

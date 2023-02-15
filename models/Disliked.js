@@ -24,4 +24,4 @@ Disliked.init(
     modelName: "Disliked",
   }
 );
-module.exports = Liked;
+module.exports = Disliked;

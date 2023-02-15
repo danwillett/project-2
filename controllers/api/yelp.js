@@ -2,11 +2,11 @@ let yelpAPI = require("yelp-api");
 require("dotenv").config();
 // Create a new yelpAPI object with your API key
 let apiKey = process.env.yelp_api;
-let yelp = new yelpAPI(apiKey);
-
+const { User, Preferences} = require('../../models');
 const router = require("express").Router();
 
 router.get("/search", async (req, res) => {
+  console.log(req.session)
   try {
     let cats = req.query.categories.split("_");
 
@@ -40,25 +40,33 @@ router.get("/search", async (req, res) => {
       // get random restaurant
       let randomBusId = Math.floor(Math.random() * (businesses.length - 1));
       let chosenRestaurant = businesses[randomBusId];
-      console.log(chosenRestaurant);
       chosenRestaurant.address =
         chosenRestaurant.location.display_address[0] +
         ", " +
         chosenRestaurant.location.display_address[1];
 
       // save location preferences in case they were editted in search window
-      preferences = req.session.preferences;
+      console.log(req.session)
+      const userData = await User.findByPk(req.session.user_id, {
+        include: [{model: Preferences}],
+        attributes: { exclude: ['password'] },
+      });
+      const userObj = userData.get({ plain: true })
+      const preferences = userObj.Preference;
+
+      console.log(req.query.city)
       preferences.city = req.query.city;
       preferences.state = req.query.state;
       preferences.locationDisplay = preferences.city + ", " + preferences.state;
+      console.log(preferences)
 
-      req.session.save(() => {
-        req.session.preferences = preferences;
-      });
+      // req.session.save(() => {
+      //   req.session.preferences = preferences;
+      // });
 
       return res.render("homepage", {
         chosenRestaurant,
-        preferences: req.session.preferences,
+        preferences: preferences,
         logged_in: req.session.logged_in,
       });
     } else {

@@ -19,7 +19,7 @@ UserDisliked.init(
       },
       onDelete: "CASCADE",
     },
-    restaurant_id: {
+    disliked_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'Disliked',
@@ -37,4 +37,4 @@ UserDisliked.init(
   }
 );
 
-module.exports = ProductTag;
+module.exports = UserDisliked;

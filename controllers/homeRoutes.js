@@ -9,16 +9,15 @@ router.get('/', withAuth, async (req, res) => {
       include: [{model: Preferences}],
       attributes: { exclude: ['password'] },
     });
-    // console.log(userData)
     const userObj = userData.get({ plain: true })
     const preferences = userObj.Preference;
-    
+
     preferences.locationDisplay = preferences.city + ", " + preferences.state;
 
     req.session.save(() => {
       req.session.preferences = preferences;
     });
-    console.log(preferences)
+    
     res.render('homepage', {
       preferences,     
       logged_in: req.session.logged_in,
