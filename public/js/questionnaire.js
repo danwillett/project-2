@@ -12,7 +12,7 @@ if (!createBtn == '') {
     
         if (cityEl.value == '' || stateEl == '') {
             alert("Please provide your city and state.")
-            location.reload()
+            return false
         }
     
         let preferences = JSON.stringify({
@@ -48,7 +48,8 @@ if (!updateBtn == '') {
 
         if (cityEl.value == '' || stateEl == '') {
             alert("Please provide your city and state.")
-            location.reload()
+            return false
+            
         }
     
         let preferences = JSON.stringify({
@@ -69,9 +70,17 @@ if (!updateBtn == '') {
             document.location.replace('/');
           } else {
             alert('Failed to save preferences');
-            location.reload();
+            return false
           }
 
+    })
+
+    const returnHomeBtn = document.getElementById('home-btn');
+    returnHomeBtn.addEventListener('click', (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        document.location.replace('/');
     })
 }
    
