@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User} = require('../../models');
+const { User, Preferences} = require('../../models');
 const bcrypt = require('bcrypt')
 
 router.post('/login', async (req, res) => {
@@ -70,6 +70,23 @@ router.post('/create-account', async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.post('/add-preferences', async (req, res) => {
+console.log(req.session)
+console.log(req.body)
+
+const userPreferences = Preferences.create({
+  city: req.body.city,
+  state: req.body.state,
+  price: 10,
+  favoriteCuisine: "default",
+  is_vegetarian: true,
+  user_id: req.session.user_id
+})
+
+
+
+})
 
 // router.post('/dislike-restaurant', async (req, res) => {
 //   // user dislikes restaurant

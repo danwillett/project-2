@@ -2,22 +2,21 @@
 {{!-- https://docs.mapbox.com/api/search/geocoding/#forward-geocoding this can be used to grab city or state I think
 --}}
 
-<body class="bg-info">
+<body>
+
   <div class="container">
     <div class="row">
 
-      <div class="col-md-5" style="position:relative; margin-top: -38px; margin-left:215px;">
-        {{!-- show category label options --}}
-        <ul class="list-group list-group-horizontal" id="filters"></ul>
-      </div>
-
       <div class="container">
+      <div class="col-sm-12 my-10">
+      <ul class="list-group list-group-horizontal" id="filters"></ul>
+      </div>
 
         {{!-- https://www.solodev.com/blog/web-design/adding-a-filter-to-your-search-input-using-bootstrap.stml --}}
         <div class="row searchFilter">
           <div class="col-sm-12">
             <div class="input-group">
-              <input type="text" id="cuisine" class="form-control"
+              <input type="text" id="cuisine" class="form-control" style="min-width: 200px;"
                 aria-label="Text input with segmented button dropdown">
 
               <div class="dropdown">
@@ -27,6 +26,7 @@
                   {{{preferences.locationDisplay}}}
                 </button>
                 <div class="dropdown-menu">
+
                   <form class="px-4 py-3">
                     <div class="mb-3">
                       <label for="dropdown-city" class="form-label">City</label>
@@ -39,41 +39,37 @@
                     <div class="mb-3">
                       <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                        <label class="form-check-label" for="dropdownCheck">
+                        {{!-- <label class="form-check-label" for="dropdownCheck">
                           Update Profile
-                        </label>
+                        </label> --}}
                       </div>
                     </div>
                     <button type="button" class="btn btn-primary" id="location-submit">Submit</button>
                   </form>
-                  {{!-- <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">New around here? Sign up</a>
-                  <a class="dropdown-item" href="#">Forgot password?</a> --}}
+                  
                 </div>
               </div>
               <button id="searchBtn" type="button" class="btn btn-primary btn-search"><span
                   class="glyphicon glyphicon-search">&nbsp;</span> <span class="label-icon">Find
                   Restaurant</span></button>
             </div>
-
-
           </div>
         </div>
-      </div>
-
-      <div class="col-md-5">
+        <div class="col-md-5">
         {{!-- show autocomplete options --}}
         <div class="list-group" id="show-list"></div>
       </div>
+      </div> 
 
     </div>
 
-    <section class="display-restaurant">
+
+    <section class="display-restaurant row my-3">
       {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
       {{#if chosenRestaurant.id}}
       <div class="card mb-3">
         <div class="row g-0">
-          <div class="col-md-6 col-lg-6">
+          <div class="col-md-6 col-lg-6 mh-50">
             <img class="img-fluid rounded-start" src={{chosenRestaurant.image_url}} alt="Restaurant image cap">
           </div>
           <div class="col-md-6 col-lg-6">
@@ -97,7 +93,7 @@
 
         </div>
       </div>
-        {{/if}}
+      {{/if}}
 
     </section>
 

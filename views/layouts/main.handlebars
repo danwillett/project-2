@@ -12,7 +12,18 @@
 
 </head>
 
-  <header class="display-flex justify-space-between align-center p-2">
+  {{!-- navigation bar --}}
+  <nav class="navbar navbar-light bg-light">
+    <span class="mx-3 navbar-brand mb-0 h1">Restaurant Roulette</span>
+    
+    {{#if logged_in}}
+      <button class="btn mx-3" id="logout">logout</button>
+    {{/if}}
+
+  </nav>
+
+
+  {{!-- <header class="display-flex justify-space-between align-center p-2">
     <h1>
       Restaurant Roulette
     </h1>
@@ -22,7 +33,7 @@
     </nav>
     {{/if}}
     
-  </header>
+  </header> --}}
 
 
     
