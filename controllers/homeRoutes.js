@@ -40,8 +40,21 @@ router.get('/createAccount', (req, res) => {
   res.render('createUser')
 })
 
-router.get('/questionnaire', withAuth, (req, res) => {
-  res.render('questionnaire')
+router.get('/questionnaire', withAuth, async (req, res) => {
+  const userId = req.session.user_id
+  const preferencesData = await Preferences.findOne({where: {user_id: userId}});
+  // change handlebars questionnaire view to accommadate updating preferences or creating new preferences
+  let prefs;
+  if (!preferencesData) {
+     prefs = {
+      exist: false
+     }   
+  } else {
+    prefs =  {
+      exist: true
+     }
+  }
+  res.render('questionnaire', prefs)
 })
 
 module.exports = router;

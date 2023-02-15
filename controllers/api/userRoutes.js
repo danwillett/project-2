@@ -90,6 +90,36 @@ try {
 
 })
 
+router.put('/update-preferences', async (req, res) => {
+console.log("updating")
+  try {
+    
+    const userPreferences = Preferences.update(
+      {
+      city: req.body.city,
+      state: req.body.state,
+      price: 10,
+      favoriteCuisine: "default",
+      is_vegetarian: true,
+      user_id: req.session.user_id
+    },
+    {
+      where: {user_id: req.session.user_id}
+    }
+    )
+    console.log(userPreferences)
+  
+    res.status(200).json({ userPreferences: userPreferences, message: 'Preferences saved!' });
+  
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+  
+  })
+
+// Routes for future development below... 
+
 // router.post('/dislike-restaurant', async (req, res) => {
 //   // user dislikes restaurant
 //   /* req.body should look like this...
