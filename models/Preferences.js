@@ -20,6 +20,11 @@ Preferences.init(
             type: DataTypes.INTEGER
       
           },
+          favoriteCuisine: {
+            type: DataTypes.STRING
+            
+
+          },
           is_vegetarian: {
             type: DataTypes.BOOLEAN
           },
