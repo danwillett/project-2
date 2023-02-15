@@ -1,22 +1,26 @@
 const User = require('./User');
-// add the other model
-
 const Preferences = require('./Preferences');
+const Disliked = require('./Disliked')
+const UserDisliked = require('./UserDisliked')
 
-// Define a Driver as having one License to create a foreign key in the `license` table
 User.hasOne(Preferences, {
   foreignKey: 'user_id',
-  // When we delete a Driver, make sure to also delete the associated License.
   onDelete: 'CASCADE',
 });
 
-// We can also define the association starting with License
 Preferences.belongsTo(User, {
   foreignKey: 'user_id',
 });
 
+User.belongsToMany(Disliked, {
+  through: UserDisliked,
+  foreignKey: "user_id",
+})
+
+Disliked.belongsToMany(User, {
+  through: UserDisliked,
+  foreignKey: "restaurant_id",
+})
+
 // We package our two models and export them as an object so we can import them together and use their proper names
-module.exports = { User, Preferences };
-
-
-
+module.exports = { User, Preferences, Disliked, UserDisliked };
