@@ -112,6 +112,7 @@ router.get("/categories", async (req, res) => {
     );
 
     const dataObj = await data.json();
+    console.log(dataObj)
     categories = dataObj.categories;
     foodCatsObj = categories.filter((cat) => {
       if (
