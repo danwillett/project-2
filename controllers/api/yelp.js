@@ -2,24 +2,27 @@ let yelpAPI = require("yelp-api");
 require("dotenv").config();
 // Create a new yelpAPI object with your API key
 let apiKey = process.env.yelp_api;
-const { User, Preferences} = require('../../models');
+const { User, Preferences } = require("../../models");
 const router = require("express").Router();
 
 router.get("/search", async (req, res) => {
-  console.log(req.session)
   try {
-    let cats = req.query.categories.split("_");
-
+    let businesses = [];
     let location = `location=${req.query.city}`;
+
+    let cats = req.query.categories.split("_");
     let categories = [];
     for (let i = 0; i < cats.length; i++) {
       categories.push(`categories=${cats[i]}`);
     }
-
     categories = categories.join("&");
-    let filters = `${location}&${categories}`;
+    console.log(categories)
+  
+    // if there the user has input categories, search for businesses
+    if (!categories == '') {
 
-    const searchResults = await fetch(
+    let filters = `${location}&${categories}`;
+    const filterResults = await fetch(
       `https://api.yelp.com/v3/businesses/search?${filters}`,
       {
         method: "GET",
@@ -29,18 +32,52 @@ router.get("/search", async (req, res) => {
         },
       }
     );
+    const searchObj = await filterResults.json();
+    businesses.push(searchObj.businesses);
+    }
+    
+    // if the user has a search term input, add results from this search to the businesses pool
+    if (!req.query.term == '') {
+      let term = `${location}&term=${req.query.term.replace(" ", "%20")}`;
+      console.log(term)
+      const termResults = await fetch(
+        `https://api.yelp.com/v3/businesses/search?${term}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + apiKey,
+          },
+        }
+      );
+      const termObj = await termResults.json();
+      businesses.push(termObj.businesses);
+      console.log(businesses)
+    }
 
-    const searchObj = await searchResults.json();
-    let businesses = searchObj.businesses;
+    if (!req.query.term == '' && !categories == '') {
+      const results = await fetch(
+        `https://api.yelp.com/v3/businesses/search?${location}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + apiKey,
+          },
+        }
+      );
+      const resultsObj = await results.json();
+      businesses.push(resultsObj.businesses);
+    }
+    businesses = businesses.flat();
 
     // if businesses have been found in the area with these parameters...
     if (businesses.length > 0) {
-      console.log("try randomizing");
-
       // get random restaurant
-      let randomBusId = Math.floor(Math.random() * (businesses.length - 1));
+      let randomBusId = Math.floor(Math
+        .random() * (businesses.length - 1));
       let chosenRestaurant = businesses[randomBusId];
-      console.log(chosenRestaurant.id)
+      console.log(chosenRestaurant.id);
 
       const businessResult = await fetch(
         `https://api.yelp.com/v3/businesses/${chosenRestaurant.id}`,
@@ -52,37 +89,11 @@ router.get("/search", async (req, res) => {
           },
         }
       );
-      
-        
-      const businessData = await businessResult.json()
-      console.log(businessData)
-      // chosenRestaurant.address =
-      //   chosenRestaurant.location.display_address[0] +
-      //   ", " +
-      //   chosenRestaurant.location.display_address[1];
 
-      // save location preferences in case they were editted in search window
-      // console.log(req.session)
-      // const userData = await User.findByPk(req.session.user_id, {
-      //   include: [{model: Preferences}],
-      //   attributes: { exclude: ['password'] },
-      // });
-      // const userObj = userData.get({ plain: true })
-      // const preferences = userObj.Preference;
+      const businessData = await businessResult.json();
+      console.log(businessData);
 
-      // console.log(req.query.city)
-      // preferences.city = req.query.city;
-      // preferences.state = req.query.state;
-      // preferences.locationDisplay = preferences.city + ", " + preferences.state;
-      // console.log(preferences)
-
-
-      return res.status(200).json(businessData)
-      // return res.render("homepage", {
-      //   chosenRestaurant,
-      //   preferences: preferences,
-      //   logged_in: req.session.logged_in,
-      // });
+      return res.status(200).json(businessData);
     } else {
       // if businesses haven't been found send a message to front end
       res.status(404).json({
@@ -112,7 +123,7 @@ router.get("/categories", async (req, res) => {
     );
 
     const dataObj = await data.json();
-    console.log(dataObj)
+    console.log(dataObj);
     categories = dataObj.categories;
     foodCatsObj = categories.filter((cat) => {
       if (

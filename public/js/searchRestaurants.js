@@ -145,10 +145,10 @@ searchBtnEl.addEventListener('click', async (event) => {
     // location filter
     let city = locationBtn.getAttribute("data-city")
     let state = locationBtn.getAttribute("data-state")
-
-    // need a city and state query parameter
-    // window.location.replace(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
-    const result = await fetch(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
+    let searchTerm = searchFieldEl.value;
+    
+    // need a city, state, and term query parameter
+    const result = await fetch(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}&term=${searchTerm}`)
     let resultObj = await result.json();
     console.log(resultObj)
     generateModal(resultObj)
