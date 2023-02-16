@@ -1,4 +1,8 @@
-// Get food categories list
+// 
+// Restaurant Search
+// 
+
+// DOM elements related to restaurant search
 const searchBtnEl = document.getElementById("searchBtn");
 const searchFieldEl = document.getElementById("cuisine");
 const categoryListEl = document.getElementById("show-list");
@@ -132,8 +136,56 @@ searchBtnEl.addEventListener('click', async (event) => {
     let state = locationBtn.getAttribute("data-state")
 
     // need a city and state query parameter
-    window.location.replace(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
+    // window.location.replace(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
+    const result = await fetch(`/api/yelp/search?categories=${aliases}&city=${city}&state=${state}`)
+    let resultObj = await result.json();
+    console.log(resultObj)
+    generateModal(resultObj)
+    
+  })
 
-})
+//
+// Displaying Restaurant
+// 
 
+const titleEl = document.getElementById('restaurant-name');
+const addressEl = document.getElementById('address');
+const phoneEl = document.getElementById('phone');
+const imageEl = document.getElementById('restaurant-img');
+const priceEl = document.getElementById('price');
+const ratingEl = document.getElementById('rating');
+const typeEl = document.getElementById('type');
+const webBtn = document.getElementById('website')
+
+// function adds restaurant details to modal and toggle display
+const generateModal = (restaurantObj) => {
+
+titleEl.textContent = restaurantObj.name
+addressEl.textContent = 'Address: ' + restaurantObj.location.address1 + ', ' + restaurantObj.location.city + ', ' + restaurantObj.location.state;
+phoneEl.textContent = 'Phone: ' + restaurantObj.display_phone
+priceEl.textContent = 'Price: ' + restaurantObj.price
+ratingEl.textContent = 'Rating: ' + restaurantObj.rating
+
+
+imageEl.style.backgroundImage = `url(${restaurantObj.photos[0]})`
+imageEl.style.backgroundPosition = 'center';
+imageEl.style.backgroundSize = 'cover';
+imageEl.style.minHeight = '300px';
+
+let catDisplay;
+if (restaurantObj.categories.length > 1) {
+  let cats = restaurantObj.categories.map(cat => cat.title);
+  catDisplay = cats.join(" | ")
+} else {
+  catDisplay = restaurantObj.categories[0].title;
+}
+typeEl.textContent = catDisplay;
+
+webBtn.setAttribute('href', restaurantObj.url)
+
+// setAttribute('src', restaurantObj.photos[0])
+
+const myModal = new bootstrap.Modal(document.getElementById('restaurant-modal'))
+myModal.toggle()
+}
 

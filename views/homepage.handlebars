@@ -2,15 +2,13 @@
 {{!-- https://docs.mapbox.com/api/search/geocoding/#forward-geocoding this can be used to grab city or state I think
 --}}
 
-<body>
-
   <div class="container">
     <div class="row">
 
       <div class="container">
-      <div class="col-sm-12 my-10">
-      <ul class="list-group list-group-horizontal" id="filters"></ul>
-      </div>
+        <div class="col-sm-12 my-10">
+          <ul class="list-group list-group-horizontal" id="filters"></ul>
+        </div>
 
         {{!-- https://www.solodev.com/blog/web-design/adding-a-filter-to-your-search-input-using-bootstrap.stml --}}
         <div class="row searchFilter">
@@ -44,9 +42,11 @@
                         </label> --}}
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary" id="location-submit">Submit</button>
+                    {{!-- button fires search for restaurant and opens the modal used to display restaurant --}}
+                    <button type="button" class="btn btn-primary" id="location-submit" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">Submit</button>
                   </form>
-                  
+
                 </div>
               </div>
               <button id="searchBtn" type="button" class="btn btn-primary btn-search"><span
@@ -56,48 +56,55 @@
           </div>
         </div>
         <div class="col-md-5">
-        {{!-- show autocomplete options --}}
-        <div class="list-group" id="show-list"></div>
+          {{!-- show autocomplete options --}}
+          <div class="list-group" id="show-list"></div>
+        </div>
       </div>
-      </div> 
 
     </div>
 
+    <!-- Modal -->
+  </div>
 
-    <section class="display-restaurant row my-3">
-      {{!-- if a business id has sent following the search for random restaurant, display restaurant data --}}
-      {{#if chosenRestaurant.id}}
-      <div class="card mb-3">
-        <div class="row g-0">
-          <div class="col-md-6 col-lg-6 mh-50">
-            <img class="img-fluid rounded-start" src={{chosenRestaurant.image_url}} alt="Restaurant image cap">
-          </div>
-          <div class="col-md-6 col-lg-6">
-            <div class="card-body">
-              <h5 class="card-title">{{chosenRestaurant.name}}</h5>
-              {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's
-                content.</p> --}}
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{chosenRestaurant.address}}</li>
-              <li class="list-group-item">{{chosenRestaurant.display_phone}}</li>
-              {{!-- <li class="list-group-item">Vestibulum at eros</li> --}}
-            </ul>
-            <div class="card-body">
-              <a href="{{chosenRestaurant.url}}" target="_blank" class="card-link">See restaurant page</a>
-              <a href="#" class="card-link" type="button" id="like-restaurant">Add to liked</a>
-              <a href="#" class="card-link" type="button" id="dislike-restaurant">Don't recommend again</a>
-            </div>
-          </div>
-
-        </div>
+<div class="modal fade" id="restaurant-modal" tabindex="-1" aria-labelledby="resturaunt-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="restaurant-name"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      {{/if}}
+      <div class="modal-body">
+        
+        <section class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="col-md-6 col-lg-6 mh-50">
+            <div class="container-md" id="restaurant-img" alt="image of restaurant"></div>
+            {{!-- <img style="object-fit:none; object-position:center; width:100%; max-height:500px; margin-bottom:1rem;" id="restaurant-img" alt="Restaurant image cap"> --}}
+          </div>
+        
+          
+          <div >
 
-    </section>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" id="type"></li>
+              <li class="list-group-item" id="price"></li>
+              <li class="list-group-item" id="rating"></li>
+              <li class="list-group-item" id="address"></li>
+              <li class="list-group-item" id="phone"></li>
+              
+            </ul>
+          </div>
 
+        </section>
+
+      </div>
+      <div class="modal-footer">
+        <a id="website" target="_blank"><button type="link" class="btn btn-primary">Visit Website</button></a>
+        
+      </div>
+    </div>
   </div>
-  </div>
+</div>
+{{!-- {{/if}} --}}
+ <script type="module" src="/js/searchRestaurants.js"></script>
 
-  <script type="module" src="/js/searchRestaurants.js"></script>
+

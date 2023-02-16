@@ -40,38 +40,52 @@ router.get("/search", async (req, res) => {
       // get random restaurant
       let randomBusId = Math.floor(Math.random() * (businesses.length - 1));
       let chosenRestaurant = businesses[randomBusId];
-      chosenRestaurant.address =
-        chosenRestaurant.location.display_address[0] +
-        ", " +
-        chosenRestaurant.location.display_address[1];
+      console.log(chosenRestaurant.id)
+
+      const businessResult = await fetch(
+        `https://api.yelp.com/v3/businesses/${chosenRestaurant.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + apiKey,
+          },
+        }
+      );
+      
+        
+      const businessData = await businessResult.json()
+      console.log(businessData)
+      // chosenRestaurant.address =
+      //   chosenRestaurant.location.display_address[0] +
+      //   ", " +
+      //   chosenRestaurant.location.display_address[1];
 
       // save location preferences in case they were editted in search window
-      console.log(req.session)
-      const userData = await User.findByPk(req.session.user_id, {
-        include: [{model: Preferences}],
-        attributes: { exclude: ['password'] },
-      });
-      const userObj = userData.get({ plain: true })
-      const preferences = userObj.Preference;
-
-      console.log(req.query.city)
-      preferences.city = req.query.city;
-      preferences.state = req.query.state;
-      preferences.locationDisplay = preferences.city + ", " + preferences.state;
-      console.log(preferences)
-
-      // req.session.save(() => {
-      //   req.session.preferences = preferences;
+      // console.log(req.session)
+      // const userData = await User.findByPk(req.session.user_id, {
+      //   include: [{model: Preferences}],
+      //   attributes: { exclude: ['password'] },
       // });
+      // const userObj = userData.get({ plain: true })
+      // const preferences = userObj.Preference;
 
-      return res.render("homepage", {
-        chosenRestaurant,
-        preferences: preferences,
-        logged_in: req.session.logged_in,
-      });
+      // console.log(req.query.city)
+      // preferences.city = req.query.city;
+      // preferences.state = req.query.state;
+      // preferences.locationDisplay = preferences.city + ", " + preferences.state;
+      // console.log(preferences)
+
+
+      return res.status(200).json(businessData)
+      // return res.render("homepage", {
+      //   chosenRestaurant,
+      //   preferences: preferences,
+      //   logged_in: req.session.logged_in,
+      // });
     } else {
       // if businesses haven't been found send a message to front end
-      res.json({
+      res.status(404).json({
         message:
           "No restaurants found! Please try editing your filters or increase your search radius!",
       });
