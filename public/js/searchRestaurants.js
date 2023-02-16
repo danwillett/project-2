@@ -9,6 +9,14 @@ const categoryListEl = document.getElementById("show-list");
 const cuisineEl = document.getElementById("filters");
 const locationBtn = document.getElementById("location-dropdown")
 const locationSubmitBtn = document.getElementById("location-submit")
+
+const deleteBtn = (event) => {
+  event.preventDefault()
+  event.stopPropagation()
+
+  event.target.remove()
+}
+
 console.log(locationBtn)
 
 const getFilters = (event) => {
@@ -48,14 +56,13 @@ const addFilters = async () => {
         matchList.forEach((cat) => {
           // if there's already a list item with this cat, don't make a new one
           if (document.getElementById(cat.title) == null) {
-            let catItem = document.createElement("a");
+            let catItem = document.createElement("button");
             catItem.setAttribute(
               "class",
-              "list-group-item list-group-item-action border-1"
+              "list-group-item list-group-item-action border-1 btn btn-info"
             );
-            catItem.setAttribute("href", "#");
             catItem.setAttribute("id", cat.title);
-            catItem.setAttribute("data-alias", cat.alias)
+            catItem.setAttribute("data-alias", cat.alias);
             catItem.textContent = cat.title;
             categoryListEl.appendChild(catItem);
           }
@@ -79,13 +86,17 @@ const addFilters = async () => {
         if (!filters.includes(category)) {
             let newFilter = document.createElement('li');
             newFilter.setAttribute("id", category)
-            newFilter.setAttribute("class", "list-group-item")
+            newFilter.setAttribute("class", "list-group-item filter")
             newFilter.setAttribute("data", alias)
             newFilter.textContent = category;
             cuisineEl.appendChild(newFilter)
         }
-        categoryListEl.innerHTML= '';
+
+
+        categoryListEl.innerHTML = '';
         searchFieldEl.value = '';
+
+  
     })
     
   });
@@ -143,6 +154,14 @@ searchBtnEl.addEventListener('click', async (event) => {
     generateModal(resultObj)
     
   })
+
+//
+// Deleting filters
+//
+
+cuisineEl.addEventListener("click", deleteBtn)
+
+
 
 //
 // Displaying Restaurant
