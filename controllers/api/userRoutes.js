@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User} = require('../../models');
+const { User, Preferences} = require('../../models');
 const bcrypt = require('bcrypt')
 
 router.post('/login', async (req, res) => {
@@ -9,15 +9,16 @@ router.post('/login', async (req, res) => {
     if (!userData) {
       res
         .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
+        .json({ message: 'Incorrect username or password, please try again' });
       return;
     }
+    console.log(req.body.password)
     const validPassword = await userData.checkPassword(req.body.password);
-
+    console.log(validPassword)
     if (!validPassword) {
       res
         .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
+        .json({ message: 'Incorrect username or password, please try again' });
       return;
     }
     
@@ -44,15 +45,14 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/create-account', async (req, res) => {
-  console.log(req.body)
   
   try {    
     const newUser = {
       username: req.body.username,
     };
 
-    newUser.password = await bcrypt.hash(req.body.password, 10);
-    console.log(newUser)
+    newUser.password = req.body.password;
+    // console.log(newUser)
     // create the newUser with the hashed password and save to DB
     const userData = await User.create(newUser);
     console.log(userData)
@@ -60,8 +60,6 @@ router.post('/create-account', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      
-      console.log("ok?")
       res.json({ user: userData, message: 'Created new account. You are now logged in!' });
     });
 
@@ -70,6 +68,58 @@ router.post('/create-account', async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.post('/add-preferences', async (req, res) => {
+
+try {
+  
+  const userPreferences = Preferences.create({
+    city: req.body.city,
+    state: req.body.state,
+    price: 10,
+    favoriteCuisine: "default",
+    is_vegetarian: true,
+    user_id: req.session.user_id
+  })
+
+  res.status(200).json({ userPreferences: userPreferences, message: 'Preferences saved!' });
+
+} catch (err) {
+  console.log(err)
+  res.status(500).json(err)
+}
+
+})
+
+router.put('/update-preferences', async (req, res) => {
+console.log("updating")
+  try {
+    
+    const userPreferences = Preferences.update(
+      {
+      city: req.body.city,
+      state: req.body.state,
+      price: 10,
+      favoriteCuisine: "default",
+      is_vegetarian: true,
+      user_id: req.session.user_id
+    },
+    {
+      where: {user_id: req.session.user_id}
+    }
+    )
+    console.log(userPreferences)
+  
+    res.status(200).json({ userPreferences: userPreferences, message: 'Preferences saved!' });
+  
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+  
+  })
+
+// Routes for future development below... 
 
 // router.post('/dislike-restaurant', async (req, res) => {
 //   // user dislikes restaurant
