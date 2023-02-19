@@ -1,3 +1,6 @@
+{{!-- questionnaire form --}}
+
+{{!-- if this is an existing user, add an option to go back to homepage, otherwise provide instructions --}}
 <div class="container">
   <div class="row">
     {{#if exist}}
@@ -48,8 +51,8 @@
         {{#if exist}}
         <button class="btn btn-primary" id="update-preferences" type="click">Submit</button>
         {{else}}
-          <button class="btn btn-primary" id="create-preferences" type="click">Submit</button>
-          {{/if}}
+        <button class="btn btn-primary" id="create-preferences" type="click">Submit</button>
+        {{/if}}
 
       </div>
     </form>

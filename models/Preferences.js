@@ -1,6 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
 
+// Preferences model with id, city, state, and user_id fields.
+// The other fields will be used in future development as additional filters
+
 class Preferences extends Model {}
 
 Preferences.init(
@@ -13,7 +16,7 @@ Preferences.init(
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     state: {
       type: DataTypes.STRING,

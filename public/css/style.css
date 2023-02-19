@@ -1,3 +1,4 @@
+/* when hovering over filter buttons, will turn red to indicate a click will delete the filter */
 .filter:hover {
     background-color: red;
     cursor:default;

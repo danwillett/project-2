@@ -1,3 +1,6 @@
+// this model is to track restuarants users do not like. It is not currently used in the application,
+// but is being considered for future development
+
 const { Model, DataTypes} = require("sequelize");
 const sequelize = require("../config/connection");
 
