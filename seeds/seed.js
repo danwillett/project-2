@@ -1,3 +1,5 @@
+// Seeds database. Used to ensure models and functions are operating correctly.
+
 const sequelize = require('../config/connection');
 const { User, Preferences } = require('../models');
 

@@ -1,5 +1,7 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
+
+// Linking table between the User and Disliked model. This will be used in future development.
 
 class UserDisliked extends Model {}
 
@@ -14,16 +16,16 @@ UserDisliked.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
-        key: 'id',
+        model: "user",
+        key: "id",
       },
       onDelete: "CASCADE",
     },
     disliked_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Disliked',
-        key: 'id',
+        model: "Disliked",
+        key: "id",
       },
       onDelete: "CASCADE",
     },
@@ -33,7 +35,7 @@ UserDisliked.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'user_disliked',
+    modelName: "user_disliked",
   }
 );
 

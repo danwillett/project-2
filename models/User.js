@@ -1,6 +1,11 @@
-const { Model, DataTypes} = require('sequelize');
-const bcrypt = require('bcrypt');
-const sequelize = require('../config/connection');
+const { Model, DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
+const sequelize = require("../config/connection");
+
+// User model contains id, username, and password information
+// the user model has an instance method that will check whether the password inputted in the login-page
+// matches the hashed password associated with the account.
+// Additionally, this model has a hook that will hash the user's password before saving.
 
 class User extends Model {
   checkPassword(loginPw) {
@@ -16,7 +21,7 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    
+
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,24 +45,8 @@ User.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'user',
+    modelName: "user",
   }
 );
 
 module.exports = User;
-
-
-
-
-// In this section, we are defining what types of data we're going to be storing.
-
-// Things we could store as tables:
-// - Users info (see User.js)
-//     - id
-//     - username
-//     - password
-// - User's preferences
-//     - dietary restrictions - string array
-//     - price min-max - 
-//     - favorite restaurants?
-//     - user_id foreign key
